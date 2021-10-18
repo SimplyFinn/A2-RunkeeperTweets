@@ -64,22 +64,27 @@ class Tweet {
         }
 
         else {
-            if(this.text.includes(' in ')) {
-                let splitted = this.text.split(' in ');
-                let temp = splitted[1].split(' ');
-                let tempNum = parseInt(temp[temp.length - 2]);
-            }    
-
-            else if(this.text.includes('mi')) {
+            if(this.text.includes('mi')) {
                 let splitted = this.text.split('mi');
                 let temp = splitted[1].split(' ');
                 return temp[1];
             }
 
-            else {
+            else if(this.text.includes('km')) {
                 let splitted = this.text.split('km');
                 let temp = splitted[1].split(' ');
                 return temp[1];
+            }
+
+            else {
+                let splitted = this.text.split(' ');
+                if(splitted[4] == 'in') {
+                    return splitted[3];
+                }
+
+                else {
+                    return splitted[3] + ' ' + splitted[4];
+                }
             }
         }
         //TODO: parse the activity type from the text of the tweet
@@ -91,26 +96,76 @@ class Tweet {
         }
 
         else {
-            if(this.text.includes('in ')) {
-                let splitted = this.text.split('in ');
-                let temp = splitted[1].split(' ');
-                let tempNum = parseInt(temp[temp.length - 2]);
-                return tempNum;
-            }
-
-            else if(this.text.includes('mi')) {
+            if(this.text.includes('mi')) {
                 let splitted = this.text.split('mi');
                 let temp = splitted[0].split(' ');
                 let tempNum = parseInt(temp[temp.length - 2]);
                 return tempNum;
             }
 
-            else {
+            else if(this.text.includes('km')) {
                 let splitted = this.text.split('km');
                 let temp = splitted[0].split(' ');
                 let tempNum = parseInt(temp[temp.length - 2]);
                 let converted = tempNum / 1.609;
                 return converted;
+            }
+
+            else {
+                let splitted = this.text.split(' ');
+                if(splitted[4] == 'in') {
+                    let time = splitted[5];
+                    let timeSplitted = time.split(':');
+                    let totalTime = 0;
+
+                    if(timeSplitted.length == 3) {
+                        totalTime += parseInt(timeSplitted[0]) * 3600;
+                        totalTime += parseInt(timeSplitted[1]) * 60;
+                        totalTime += parseInt(timeSplitted[2]);
+
+                        return totalTime / 60;
+                    }
+
+                    else if(timeSplitted.length == 2) {
+                        totalTime += parseInt(timeSplitted[0]) * 60;
+                        totalTime += parseInt(timeSplitted[1]);
+
+                        return totalTime / 60;
+                    }
+
+                    else {
+                        totalTime += parseInt(timeSplitted[0]);
+
+                        return totalTime / 60;
+                    }
+                }
+
+                else {
+                    let time = splitted[6];
+                    let timeSplitted = time.split(':');
+                    let totalTime = 0;
+
+                    if(timeSplitted.length == 3) {
+                        totalTime += parseInt(timeSplitted[0]) * 3600;
+                        totalTime += parseInt(timeSplitted[1]) * 60;
+                        totalTime += parseInt(timeSplitted[2]);
+
+                        return totalTime / 60;
+                    }
+
+                    else if(timeSplitted.length == 2) {
+                        totalTime += parseInt(timeSplitted[0]) * 60;
+                        totalTime += parseInt(timeSplitted[1]);
+
+                        return totalTime / 60;
+                    }
+
+                    else {
+                        totalTime += parseInt(timeSplitted[0]);
+
+                        return totalTime / 60;
+                    }
+                }
             }
         }
         //TODO: prase the distance from the text of the tweet
