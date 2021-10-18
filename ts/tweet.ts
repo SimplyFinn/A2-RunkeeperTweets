@@ -64,7 +64,13 @@ class Tweet {
         }
 
         else {
-            if(this.text.includes('mi')) {
+            if(this.text.includes(' in ')) {
+                let splitted = this.text.split(' in ');
+                let temp = splitted[1].split(' ');
+                let tempNum = parseInt(temp[temp.length - 2]);
+            }    
+
+            else if(this.text.includes('mi')) {
                 let splitted = this.text.split('mi');
                 let temp = splitted[1].split(' ');
                 return temp[1];
@@ -87,7 +93,7 @@ class Tweet {
         else {
             if(this.text.includes('in ')) {
                 let splitted = this.text.split('in ');
-                let temp = splitted[0].split(' ');
+                let temp = splitted[1].split(' ');
                 let tempNum = parseInt(temp[temp.length - 2]);
                 return tempNum;
             }
@@ -106,8 +112,6 @@ class Tweet {
                 let converted = tempNum / 1.609;
                 return converted;
             }
-
-
         }
         //TODO: prase the distance from the text of the tweet
     }
