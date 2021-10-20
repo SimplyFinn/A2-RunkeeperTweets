@@ -27,7 +27,13 @@ function parseTweets(runkeeper_tweets) {
 	var allActivity = new Array();
 
 	for(let i = 0; i < completedArray.length; i++) {
-		allActivity.push(completedArray[i].activityType)
+		if(completedArray[i].activityType != 'timed') {
+			allActivity.push(completedArray[i].activityType);
+		}
+
+		else {
+			//pass;
+		}
 	}
 
 	//this puts it all into a unique dictionary
@@ -37,7 +43,30 @@ function parseTweets(runkeeper_tweets) {
 		unique[allActivity[i]] = unique[allActivity[i]] ? unique[allActivity[i]] + 1 : 1;
 	}
 
-	document.getElementById('numberActivities').innerText = Object.keys(unique).length - 1;
+	//STOLEN CODE -----------------------------------------------
+		// Create items array
+	var items = Object.keys(unique).map(function(key) {
+		return [key, unique[key]];
+	});
+	
+	// Sort the array based on the second element
+	items.sort(function(first, second) {
+		return second[1] - first[1];
+	});
+	
+	// Create a new array with only the first 5 items
+	console.log(items.slice(0, 5));
+	// IT ENDS HERE ---------------------------------------------
+
+	console.log(unique);
+	console.log(typeof items);
+	console.log(items[1][0]);
+
+	document.getElementById('numberActivities').innerText = Object.keys(unique).length;
+	document.getElementById('firstMost').innerText = items[0][0];
+	document.getElementById('secondMost').innerText = items[1][0];
+	document.getElementById('thirdMost').innerText = items[2][0];
+
 
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
 

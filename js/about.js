@@ -24,7 +24,6 @@ function parseTweets(runkeeper_tweets) {
 		}
 
 		else if(tweet_array[i].source == 'completed_event') {
-			completedArray.push(tweet_array[i]);
 			compl += 1;
 			if(tweet_array[i].written) {
 				user += 1;
