@@ -43,17 +43,15 @@ class Tweet {
     }
 
     get writtenText():string {
-        if(!this.written) {
-            var hasHttps = this.text.split('-');
-            var noHttps = hasHttps[1];
-            var end = noHttps.split('https');
-            var user = end[0].slice(1, end[0].length - 1);
+        if(this.written) {
+            var hasHttps = this.text.split('- ');
+            var noHttps = hasHttps[1].split(' https');;
 
-            return user;
+            return noHttps[0];
         }
 
         else {
-            return " ";
+            return "test";
         }
         //TODO: parse the written text from the tweet
     }

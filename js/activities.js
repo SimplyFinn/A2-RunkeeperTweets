@@ -43,7 +43,8 @@ function parseTweets(runkeeper_tweets) {
 		unique[allActivity[i]] = unique[allActivity[i]] ? unique[allActivity[i]] + 1 : 1;
 	}
 
-	//STOLEN CODE -----------------------------------------------
+	//BORROWED CODE FOR A SORTING ALGORITHM -----------------------
+	//HERE IS THE LINK https://stackoverflow.com/questions/25500316/sort-a-dictionary-by-value-in-javascript
 		// Create items array
 	var items = Object.keys(unique).map(function(key) {
 		return [key, unique[key]];
@@ -57,10 +58,6 @@ function parseTweets(runkeeper_tweets) {
 	// Create a new array with only the first 5 items
 	console.log(items.slice(0, 5));
 	// IT ENDS HERE ---------------------------------------------
-
-	console.log(unique);
-	console.log(typeof items);
-	console.log(items[1][0]);
 
 	document.getElementById('numberActivities').innerText = Object.keys(unique).length;
 	document.getElementById('firstMost').innerText = items[0][0];
