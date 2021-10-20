@@ -70,7 +70,7 @@ class Tweet {
             }
 
             else {
-                if(this.text.includes(' mi ')) {
+                if(this.text.includes(' mi ') && kmFlag == false) {
                     miFlag = true;
                 }
                 
@@ -117,19 +117,36 @@ class Tweet {
         }
 
         else {
-            if(this.text.includes(' mi ')) {
-                let splitted = this.text.split('mi');
+            var kmFlag = false;
+            var miFlag = false;
+
+            if(this.text.includes(' km ')) {
+                kmFlag = true;
+            }
+
+            else {
+                if(this.text.includes(' mi ') && kmFlag == false) {
+                    miFlag = true;
+                }
+                
+                else {
+                    miFlag = false;
+                }
+            }
+
+            if(miFlag == true) {
+                let splitted = this.text.split(' mi');
                 let temp = splitted[0].split(' ');
-                let tempNum = parseInt(temp[temp.length - 2]);
+                let tempNum = parseFloat(temp[temp.length - 1]);
                 return tempNum;
             }
 
-            else if(this.text.includes(' km ')) {
-                let splitted = this.text.split('km');
+            else if(kmFlag == true) {
+                let splitted = this.text.split(' km');
                 let temp = splitted[0].split(' ');
-                let tempNum = parseInt(temp[temp.length - 2]);
+                let tempNum = parseFloat(temp[temp.length - 1]);
                 let converted = tempNum / 1.609;
-                return converted;
+                return parseFloat(converted.toFixed(2));
             }
 
             else {
