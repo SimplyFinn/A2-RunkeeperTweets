@@ -64,27 +64,50 @@ class Tweet {
         }
 
         else {
-            if(this.text.includes('mi')) {
-                let splitted = this.text.split('mi');
-                let temp = splitted[1].split(' ');
-                return temp[1];
-            }
+            var kmFlag = false;
+            var miFlag = false;
 
-            else if(this.text.includes('km')) {
-                let splitted = this.text.split('km');
-                let temp = splitted[1].split(' ');
-                return temp[1];
+            if(this.text.includes(' km ')) {
+                kmFlag = true;
             }
 
             else {
-                let splitted = this.text.split(' ');
-                if(splitted[4] == 'in') {
-                    return splitted[3];
+                if(this.text.includes(' mi ')) {
+                    miFlag = true;
+                }
+                
+                else {
+                    miFlag = false;
+                }
+            }
+            
+            if(kmFlag == true && miFlag == false) {
+                let splitted = this.text.split('km');
+                let temp = splitted[1].split(' ');
+                if(temp[2] == 'in' || temp[2] == 'with' || temp[2] == '-') {
+                    return temp[1];
                 }
 
                 else {
-                    return splitted[3] + ' ' + splitted[4];
+                    return temp[1] + ' ' + temp[2];
                 }
+            }
+
+            else if(miFlag == true && kmFlag == false) {
+                let splitted = this.text.split('mi');
+                let temp = splitted[1].split(' ');
+            
+                if(temp[2] == 'in' || temp[2] == 'with' || temp[2] == '-') {
+                    return temp[1];
+                }
+
+                else {
+                    return temp[1] + ' ' + temp[2];
+                }
+            }
+
+            else {
+                return 'timed';
             }
         }
         //TODO: parse the activity type from the text of the tweet
@@ -96,14 +119,14 @@ class Tweet {
         }
 
         else {
-            if(this.text.includes('mi')) {
+            if(this.text.includes(' mi ')) {
                 let splitted = this.text.split('mi');
                 let temp = splitted[0].split(' ');
                 let tempNum = parseInt(temp[temp.length - 2]);
                 return tempNum;
             }
 
-            else if(this.text.includes('km')) {
+            else if(this.text.includes(' km ')) {
                 let splitted = this.text.split('km');
                 let temp = splitted[0].split(' ');
                 let tempNum = parseInt(temp[temp.length - 2]);
@@ -112,60 +135,7 @@ class Tweet {
             }
 
             else {
-                let splitted = this.text.split(' ');
-                if(splitted[4] == 'in') {
-                    let time = splitted[5];
-                    let timeSplitted = time.split(':');
-                    let totalTime = 0;
-
-                    if(timeSplitted.length == 3) {
-                        totalTime += parseInt(timeSplitted[0]) * 3600;
-                        totalTime += parseInt(timeSplitted[1]) * 60;
-                        totalTime += parseInt(timeSplitted[2]);
-
-                        return totalTime / 60;
-                    }
-
-                    else if(timeSplitted.length == 2) {
-                        totalTime += parseInt(timeSplitted[0]) * 60;
-                        totalTime += parseInt(timeSplitted[1]);
-
-                        return totalTime / 60;
-                    }
-
-                    else {
-                        totalTime += parseInt(timeSplitted[0]);
-
-                        return totalTime / 60;
-                    }
-                }
-
-                else {
-                    let time = splitted[6];
-                    let timeSplitted = time.split(':');
-                    let totalTime = 0;
-
-                    if(timeSplitted.length == 3) {
-                        totalTime += parseInt(timeSplitted[0]) * 3600;
-                        totalTime += parseInt(timeSplitted[1]) * 60;
-                        totalTime += parseInt(timeSplitted[2]);
-
-                        return totalTime / 60;
-                    }
-
-                    else if(timeSplitted.length == 2) {
-                        totalTime += parseInt(timeSplitted[0]) * 60;
-                        totalTime += parseInt(timeSplitted[1]);
-
-                        return totalTime / 60;
-                    }
-
-                    else {
-                        totalTime += parseInt(timeSplitted[0]);
-
-                        return totalTime / 60;
-                    }
-                }
+                return 0;
             }
         }
         //TODO: prase the distance from the text of the tweet

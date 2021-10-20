@@ -9,6 +9,36 @@ function parseTweets(runkeeper_tweets) {
 		return new Tweet(tweet.text, tweet.created_at);
 	});
 
+	//this gets the completed events array
+	var completedArray = new Array();
+	var other = 0;
+
+	for(let i = 0; i < tweet_array.length; i++) {
+		if(tweet_array[i].source == 'completed_event') {
+			completedArray.push(tweet_array[i]);
+		}
+
+		else {
+			other += 1;
+		}
+	}
+
+	//this puts all the activities in a huge array
+	var allActivity = new Array();
+
+	for(let i = 0; i < completedArray.length; i++) {
+		allActivity.push(completedArray[i].activityType)
+	}
+
+	//this puts it all into a unique dictionary
+	var unique = {};
+
+	for(let i = 0; i < allActivity.length; i++) {
+		unique[allActivity[i]] = unique[allActivity[i]] ? unique[allActivity[i]] + 1 : 1;
+	}
+
+	document.getElementById('numberActivities').innerText = Object.keys(unique).length - 1;
+
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
 
 	activity_vis_spec = {

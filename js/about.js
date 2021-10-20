@@ -12,8 +12,9 @@ function parseTweets(runkeeper_tweets) {
 		return new Tweet(tweet.text, tweet.created_at);
 	});
 	
+	//counts the number of event types	
+
 	for(let i = 0; i < tweet_array.length; i++) {
-		console.log(tweet_array[i].written);
 		if(tweet_array[i].source == 'live_event') {
 			live += 1;
 		}
@@ -23,6 +24,7 @@ function parseTweets(runkeeper_tweets) {
 		}
 
 		else if(tweet_array[i].source == 'completed_event') {
+			completedArray.push(tweet_array[i]);
 			compl += 1;
 			if(tweet_array[i].written) {
 				user += 1;
@@ -33,8 +35,6 @@ function parseTweets(runkeeper_tweets) {
 			misc += 1;
 		}
 	}
-
-	console.log(math.round((compl / (tweet_array.length)) * 100).toFixed(2));
 
 	//This line modifies the DOM, searching for the tag with the numberTweets ID and updating the text.
 	//It works correctly, your task is to update the text of the other tags in the HTML file!
