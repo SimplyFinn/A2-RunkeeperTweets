@@ -182,12 +182,10 @@ function parseTweets(runkeeper_tweets) {
 	activity_vis_spec = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
 	  "description": "A graph of the number of Tweets containing each type of activity.",
-	  "data": {
-			"values": completedArray
-		},
+	  "data": {"values": tweet_array},
 	  "mark": "point",
 	  "encoding": {
-			"x": {"field": "time(day)", "type": "ordinal"},
+			"x": {"field": "time", "type": "temporal", "timeUnit": "day"},
 			"y": {"field": "Mean of Distance", "type": "quantitative", "aggregate": "mean"}
 		}
 	  //TODO: Add mark and encoding
