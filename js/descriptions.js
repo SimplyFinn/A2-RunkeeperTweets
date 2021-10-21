@@ -10,9 +10,6 @@ function parseTweets(runkeeper_tweets) {
 		return new Tweet(tweet.text, tweet.created_at);
 	});
 
-	console.log(tweet_array[3].text);
-	console.log(tweet_array[3].writtenText);
-
 	var writtenArray = new Array();
 
 	for(let i = 0; i < tweet_array.length; i++) {
@@ -22,8 +19,6 @@ function parseTweets(runkeeper_tweets) {
 			}
 		}
 	}
-
-	console.log(writtenArray);
 	//TODO: Filter to just the written tweets
 }
 
