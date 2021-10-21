@@ -1,4 +1,5 @@
 const writtenArray = new Array();
+const activities = new Array();
 
 function parseTweets(runkeeper_tweets) {
 	//Do not proceed if no tweets loaded
@@ -15,6 +16,7 @@ function parseTweets(runkeeper_tweets) {
 	for(let i = 0; i < tweet_array.length; i++) {
 		if(tweet_array[i].written) {
 			if(tweet_array[i].writtenText != " ") {
+				activities.push(tweet_array[i].activityType);
 				writtenArray.push(tweet_array[i].writtenText);
 			}
 		}
@@ -24,7 +26,9 @@ function parseTweets(runkeeper_tweets) {
 
 
 function addEventHandlerForSearch() {
+	//this updates the data above the table
 	const search = document.getElementById('textFilter');
+	const table = document.getElementById('tweetTable');
 
 	var phrase;
 	var phraseCount = 0;
@@ -38,7 +42,7 @@ function addEventHandlerForSearch() {
 				phraseCount += 1;
 				document.getElementById('searchCount').innerText = phraseCount;
 				document.getElementById('searchText').innerText = phrase;
-				console.log(phrase);
+				console.log(typeof phrase);
 			}
 
 			if(phrase == '') {
@@ -46,8 +50,21 @@ function addEventHandlerForSearch() {
 				document.getElementById('searchCount').innerText = phraseCount;
 				document.getElementById('searchText').innerText = phrase;
 			}
+
+			// table.innerHTML += '
+			// 	<tr>
+			// 		<td>${i + 1} </td>
+			// 		<td>${activities[i]} </td>
+			// 		<td>${writtenArray[i]} </td>
+			// 	</tr>
+			// ';
 		}
 	});
+
+	//this updates the actual table
+	
+
+
 	//TODO: Search the written tweets as text is entered into the search box, and add them to the table
 }
 
