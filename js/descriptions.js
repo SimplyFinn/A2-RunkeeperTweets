@@ -33,7 +33,7 @@ function addEventHandlerForSearch() {
 		var phraseCount = 0;
 
 		phrase = e.target.value.toLowerCase();
-		console.log(e.target.value);
+		console.log(phrase);
 
 		for(let i = 0; i < writtenArray.length; i++) {
 			
@@ -53,6 +53,7 @@ function addEventHandlerForSearch() {
 			}
 		}
 
+		//this updates the actual table
 		if(phrase != '') {
 			filteredWrittenTweets = writtenArray.filter(function(t) {
 				return t.writtenText.includes(phrase);
@@ -69,11 +70,6 @@ function addEventHandlerForSearch() {
 			$('#tweetTable').empty();
 		}
 	});
-
-	//this updates the actual table
-	
-
-
 	//TODO: Search the written tweets as text is entered into the search box, and add them to the table
 }
 
