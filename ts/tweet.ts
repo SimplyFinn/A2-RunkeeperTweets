@@ -157,7 +157,11 @@ class Tweet {
     }
 
     getHTMLTableRow(rowNumber:number):string {
+        let startUrl = this.text.search('https://t.co');
+        let endUrl = this.text.lastIndexOf('#Runkeeper');
+        let stringUrl = this.text.substring(startUrl, endUrl);
+
         //TODO: return a table row which summarizes the tweet with a clickable link to the RunKeeper activity
-        return "<tr></tr>";
+        return '<tr><th scope="row">' + rowNumber + '</th><td>' + this.activityType + '</td><td>' + this.text.substring(0, startUrl) + "<a href='" + URL + "'>" + stringUrl + '</a>' + this.text.substring(endUrl) + '</td></tr>';
     }
 }

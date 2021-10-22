@@ -1,5 +1,4 @@
 const writtenArray = new Array();
-const activities = new Array();
 
 function parseTweets(runkeeper_tweets) {
 	//Do not proceed if no tweets loaded
@@ -16,8 +15,7 @@ function parseTweets(runkeeper_tweets) {
 	for(let i = 0; i < tweet_array.length; i++) {
 		if(tweet_array[i].written) {
 			if(tweet_array[i].writtenText != " ") {
-				activities.push(tweet_array[i].activityType);
-				writtenArray.push(tweet_array[i].writtenText);
+				writtenArray.push(tweet_array[i]);
 			}
 		}
 	}
@@ -28,36 +26,47 @@ function parseTweets(runkeeper_tweets) {
 function addEventHandlerForSearch() {
 	//this updates the data above the table
 	const search = document.getElementById('textFilter');
-	const table = document.getElementById('tweetTable');
-
+	
 	var phrase;
-	var phraseCount = 0;
 
 	search.addEventListener('keyup', function(e) {
+		var phraseCount = 0;
+
 		phrase = e.target.value.toLowerCase();
+		console.log(e.target.value);
 
 		for(let i = 0; i < writtenArray.length; i++) {
-			if(writtenArray[i].toLowerCase().includes(phrase)) {
-				console.log(phraseCount);
+			
+
+			//this adds to the count as well as updating the DOM
+			if(writtenArray[i].writtenText.toLowerCase().includes(phrase)) {
 				phraseCount += 1;
 				document.getElementById('searchCount').innerText = phraseCount;
 				document.getElementById('searchText').innerText = phrase;
-				console.log(typeof phrase);
 			}
 
+			//this resets the tweet match if there is nothing in the field
 			if(phrase == '') {
 				phraseCount = 0;
 				document.getElementById('searchCount').innerText = phraseCount;
 				document.getElementById('searchText').innerText = phrase;
 			}
+		}
 
-			// table.innerHTML += '
-			// 	<tr>
-			// 		<td>${i + 1} </td>
-			// 		<td>${activities[i]} </td>
-			// 		<td>${writtenArray[i]} </td>
-			// 	</tr>
-			// ';
+		if(phrase != '') {
+			filteredWrittenTweets = writtenArray.filter(function(t) {
+				return t.writtenText.includes(phrase);
+			});
+
+			$('#tweetTable').empty();
+
+			for(let i = 0; i < filteredWrittenTweets.length; i++) {
+				$('#tweetTable').append(filteredWrittenTweets[i].getHTMLTableRow(i + 1));
+			}
+		}
+
+		else{
+			$('#tweetTable').empty();
 		}
 	});
 

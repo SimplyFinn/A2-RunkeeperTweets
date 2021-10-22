@@ -175,6 +175,7 @@ function parseTweets(runkeeper_tweets) {
 	document.getElementById('firstMost').innerText = items[0][0];
 	document.getElementById('secondMost').innerText = items[1][0];
 	document.getElementById('thirdMost').innerText = items[2][0];
+	console.log(allActivity);
 
 
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
@@ -185,7 +186,7 @@ function parseTweets(runkeeper_tweets) {
 	  "data": {"values": tweet_array},
 	  "mark": "point",
 	  "encoding": {
-			"x": {"field": "time", "type": "temporal", "timeUnit": "day"},
+			"x": {"field": "activity type", "type": "ordinal", "sort": "decending","timeUnit": "day"},
 			"y": {"field": "Mean of Distance", "type": "quantitative", "aggregate": "mean"}
 		}
 	  //TODO: Add mark and encoding
