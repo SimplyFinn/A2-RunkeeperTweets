@@ -36,8 +36,6 @@ function addEventHandlerForSearch() {
 		console.log(phrase);
 
 		for(let i = 0; i < writtenArray.length; i++) {
-			
-
 			//this adds to the count as well as updating the DOM
 			if(writtenArray[i].writtenText.toLowerCase().includes(phrase)) {
 				phraseCount += 1;
@@ -62,6 +60,7 @@ function addEventHandlerForSearch() {
 			$('#tweetTable').empty();
 
 			for(let i = 0; i < filteredWrittenTweets.length; i++) {
+				console.log(filteredWrittenTweets[i]);
 				$('#tweetTable').append(filteredWrittenTweets[i].getHTMLTableRow(i + 1));
 			}
 		}

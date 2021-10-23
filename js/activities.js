@@ -45,7 +45,7 @@ function parseTweets(runkeeper_tweets) {
 
 	//BORROWED CODE FOR A SORTING ALGORITHM -----------------------
 	//HERE IS THE LINK https://stackoverflow.com/questions/25500316/sort-a-dictionary-by-value-in-javascript
-		// Create items array
+		//Create items array
 	var items = Object.keys(unique).map(function(key) {
 		return [key, unique[key]];
 	});
@@ -178,26 +178,108 @@ function parseTweets(runkeeper_tweets) {
 	console.log(allActivity);
 
 
+	var graphActivities = new Array();
+
+	topThreeActivityTypes = tweet_array.filter(function(tweet) {
+		if(tweet.activityType == items[0][0] || tweet.activityType == items[1][0] || tweet.activityType == items[2][0]) {
+			return true;
+		}
+
+		else {
+			return false;
+		}
+	});
+
+	graphActivities = topThreeActivityTypes.map(function(tweet) {
+		return {"distance": tweet.distance, "time": tweet.time, "activityType": tweet.activityType};
+	});
+
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
+
+	var original = true;
 
 	activity_vis_spec = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
 	  "description": "A graph of the number of Tweets containing each type of activity.",
-	  "data": {"values": tweet_array},
+	  "data": {"values": graphActivities},
 	  "mark": "point",
 	  "encoding": {
-			"x": {"field": "activity type", "type": "ordinal", "sort": "decending","timeUnit": "day"},
-			"y": {"field": "Mean of Distance", "type": "quantitative", "aggregate": "mean"}
+			"x": {"field": "time", "type": "temporal", "timeUnit": "day"},
+			"y": {"field": "distance", "type": "quantitative"},
+			"color": {"field": "activityType", "type": "nominal"}
 		}
-	  //TODO: Add mark and encoding
 	};
 	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 
+	document.getElementById('aggregate').onclick = meanButton;	
+
+	function meanButton() {
+		if(original == true) {
+			activity_vis_spec = {
+				"$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+				"description": "A graph of the number of Tweets containing each type of activity.",
+				"data": {"values": graphActivities},
+				"mark": "point",
+				"encoding": {
+					  "x": {"field": "time", "type": "temporal", "timeUnit": "day"},
+					  "y": {"field": "distance", "aggregate": "mean"},
+					  "color": {"field": "activityType", "type": "nominal"}
+				  }
+			  };
+		    vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
+			original = false;
+		}
+
+		else {
+			activity_vis_spec = {
+				"$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+				"description": "A graph of the number of Tweets containing each type of activity.",
+				"data": {"values": graphActivities},
+				"mark": "point",
+				"encoding": {
+					  "x": {"field": "time", "type": "temporal", "timeUnit": "day"},
+					  "y": {"field": "distance", "type": "quantitative"},
+					  "color": {"field": "activityType", "type": "nominal"}
+				  }
+			  };
+			vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
+			original = true;
+		}
+		
+	}	
+	
+	console.log(tweet_array);
+	console.log(graphActivities);
 	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
 	//Use those visualizations to answer the questions about which activities tended to be longest and when.
+
+	document.getElementById('longestActivityType').innerText = 'bike';
+	document.getElementById('shortestActivityType').innerText = 'walk';
+	document.getElementById('weekdayOrWeekendLonger').innerText = 'weekends';
 }
+
+// function aggregateDataButton() {
+// 	var button = document.getElementById('aggregate');
+
+// 	button.onclick = function () {
+// 		activity_vis_spec = {
+// 			"$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+// 			"description": "A graph of the number of Tweets containing each type of activity.",
+// 			"data": {"values": graphActivities},
+// 			"mark": "point",
+// 			"encoding": {
+// 				  "x": {"field": "time", "type": "temporal", "timeUnit": "day"},
+// 				  "y": {"field": "distance", "type": "quantitative", "aggregate""},
+// 				  "color": {"field": "distance", "type": "nominal"}
+// 			}
+// 			//TODO: Add mark and encoding
+// 		};
+// 		vegaEmbed('#activityVis', activity_vis_spec, {actions:false});	
+// 	}
+// }
 
 //Wait for the DOM to load
 document.addEventListener('DOMContentLoaded', function (event) {
+	//aggregateDataButton();
 	loadSavedRunkeeperTweets().then(parseTweets);
 });
