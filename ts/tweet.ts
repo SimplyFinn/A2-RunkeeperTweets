@@ -153,7 +153,6 @@ class Tweet {
                 return 0;
             }
         }
-        //TODO: prase the distance from the text of the tweet
     }
 
     getHTMLTableRow(rowNumber:number):string {

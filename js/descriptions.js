@@ -19,7 +19,6 @@ function parseTweets(runkeeper_tweets) {
 			}
 		}
 	}
-	//TODO: Filter to just the written tweets
 }
 
 
@@ -69,7 +68,6 @@ function addEventHandlerForSearch() {
 			$('#tweetTable').empty();
 		}
 	});
-	//TODO: Search the written tweets as text is entered into the search box, and add them to the table
 }
 
 //Wait for the DOM to load

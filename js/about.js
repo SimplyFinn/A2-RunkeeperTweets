@@ -13,7 +13,6 @@ function parseTweets(runkeeper_tweets) {
 	});
 	
 	//counts the number of event types	
-
 	for(let i = 0; i < tweet_array.length; i++) {
 		if(tweet_array[i].source == 'live_event') {
 			live += 1;
